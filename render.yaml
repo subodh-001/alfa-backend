@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: alfa-ai-backend
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT app:app --workers 2 --timeout 30 --keep-alive 2 --max-requests 1000 --max-requests-jitter 100
+    plan: free
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: DEEPSEEK_API_KEY
+        sync: false  # You'll set this manually in Render dashboard
+    healthCheckPath: /health
+    autoDeploy: true
